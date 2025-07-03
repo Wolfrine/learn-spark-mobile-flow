@@ -1,13 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Home, BarChart3, User } from "lucide-react";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [selectedBoard, setSelectedBoard] = useState("");
   const [selectedStandard, setSelectedStandard] = useState("");
+  const [school, setSchool] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+
+  // Auto-fill board and standard from localStorage
+  useEffect(() => {
+    const userBoard = localStorage.getItem("userBoard");
+    const userClass = localStorage.getItem("userClass");
+    const userSchool = localStorage.getItem("userSchool");
+    const userBirthDate = localStorage.getItem("userBirthDate");
+    
+    if (userBoard) setSelectedBoard(userBoard);
+    if (userClass) setSelectedStandard(userClass);
+    if (userSchool) setSchool(userSchool);
+    if (userBirthDate) setBirthDate(userBirthDate);
+  }, []);
+
+  const handleUpdate = () => {
+    // Save all profile data to localStorage
+    localStorage.setItem("userBoard", selectedBoard);
+    localStorage.setItem("userClass", selectedStandard);
+    localStorage.setItem("userSchool", school);
+    localStorage.setItem("userBirthDate", birthDate);
+    // You could add a toast notification here
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 pb-20">
@@ -29,51 +55,98 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Board Selection */}
-          <div className="mb-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Select Board
-            </label>
-            <Select value={selectedBoard} onValueChange={setSelectedBoard}>
-              <SelectTrigger className="w-full h-12 bg-white rounded-xl border-gray-200 card-shadow">
-                <SelectValue placeholder="Choose your board" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="cbse">CBSE</SelectItem>
-                <SelectItem value="icse">ICSE</SelectItem>
-                <SelectItem value="state">State</SelectItem>
-              </SelectContent>
-            </Select>
+          {/* Academic Information Section */}
+          <div className="mb-6 bg-white rounded-xl p-6 card-shadow animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Academic Information</h2>
+            
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="board" className="text-sm font-medium text-gray-900">
+                  Board
+                </Label>
+                <Select value={selectedBoard} onValueChange={setSelectedBoard}>
+                  <SelectTrigger className="w-full h-12 bg-gray-50 rounded-xl border-gray-200 mt-1">
+                    <SelectValue placeholder="Choose your board" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="cbse">CBSE</SelectItem>
+                    <SelectItem value="icse">ICSE</SelectItem>
+                    <SelectItem value="state">State</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="standard" className="text-sm font-medium text-gray-900">
+                  Standard
+                </Label>
+                <Select value={selectedStandard} onValueChange={setSelectedStandard}>
+                  <SelectTrigger className="w-full h-12 bg-gray-50 rounded-xl border-gray-200 mt-1">
+                    <SelectValue placeholder="Choose your class" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[6, 7, 8, 9, 10, 11, 12].map((std) => (
+                      <SelectItem key={std} value={std.toString()}>
+                        Class {std}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </div>
 
-          {/* Standard Selection */}
-          <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Select Standard
-            </label>
-            <Select value={selectedStandard} onValueChange={setSelectedStandard}>
-              <SelectTrigger className="w-full h-12 bg-white rounded-xl border-gray-200 card-shadow">
-                <SelectValue placeholder="Choose your class" />
-              </SelectTrigger>
-              <SelectContent>
-                {[6, 7, 8, 9, 10, 11, 12].map((std) => (
-                  <SelectItem key={std} value={std.toString()}>
-                    Class {std}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          {/* Personal Information Section */}
+          <div className="mb-6 bg-white rounded-xl p-6 card-shadow animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h2>
+            <p className="text-sm text-gray-600 mb-4">Optional details to personalize your experience</p>
+            
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="school" className="text-sm font-medium text-gray-900">
+                  School Name
+                </Label>
+                <Input
+                  id="school"
+                  type="text"
+                  placeholder="Enter your school name"
+                  value={school}
+                  onChange={(e) => setSchool(e.target.value)}
+                  className="w-full h-12 bg-gray-50 rounded-xl border-gray-200 mt-1"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="birthDate" className="text-sm font-medium text-gray-900">
+                  Birth Date
+                </Label>
+                <Input
+                  id="birthDate"
+                  type="date"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                  className="w-full h-12 bg-gray-50 rounded-xl border-gray-200 mt-1"
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Save Button */}
-          <div className="mb-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <Button className="w-full h-12 text-lg font-semibold bg-primary hover:bg-primary/90 text-white rounded-xl card-shadow">
-              Update
+          {/* Update Section - Prominent */}
+          <div className="mb-6 bg-gradient-to-r from-primary to-primary/80 rounded-xl p-6 card-shadow animate-fade-in" style={{ animationDelay: '0.3s' }}>
+            <h2 className="text-lg font-semibold text-white mb-2">Save Changes</h2>
+            <p className="text-white/80 text-sm mb-4">Update your profile information</p>
+            <Button 
+              onClick={handleUpdate}
+              className="w-full h-12 text-lg font-semibold bg-white text-primary hover:bg-gray-50 rounded-xl shadow-lg"
+            >
+              Update Profile
             </Button>
           </div>
 
-          {/* Upgrade Button (Hidden/Disabled) */}
-          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          {/* Upgrade Section */}
+          <div className="mb-4 bg-white rounded-xl p-6 card-shadow animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">Premium Features</h2>
+            <p className="text-gray-600 text-sm mb-4">Unlock advanced tracking and analytics</p>
             <Button 
               disabled 
               className="w-full h-12 text-lg font-semibold rounded-xl opacity-50 cursor-not-allowed"
