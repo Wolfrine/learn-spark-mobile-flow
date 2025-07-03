@@ -158,7 +158,10 @@ const Dashboard = () => {
             <BarChart3 className="w-6 h-6 text-primary" />
             <span className="text-xs text-primary">Dashboard</span>
           </button>
-          <button className="flex flex-col items-center space-y-1 tap-highlight">
+          <button
+            onClick={() => navigate("/profile")}
+            className="flex flex-col items-center space-y-1 tap-highlight"
+          >
             <User className="w-6 h-6 text-gray-600" />
             <span className="text-xs text-gray-600">Profile</span>
           </button>
