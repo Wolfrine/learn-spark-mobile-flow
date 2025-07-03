@@ -137,10 +137,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Powered by Growth Tutorials */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500">Powered by Growth Tutorials</p>
-          </div>
         </div>
       </div>
 
@@ -165,6 +161,11 @@ const Dashboard = () => {
             <User className="w-6 h-6 text-gray-600" />
             <span className="text-xs text-gray-600">Profile</span>
           </button>
+        </div>
+        
+        {/* Powered by Growth Tutorials */}
+        <div className="text-center pt-2 border-t border-gray-100 mt-3">
+          <p className="text-xs text-gray-500">Powered by Growth Tutorials</p>
         </div>
       </div>
     </div>
