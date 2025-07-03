@@ -155,10 +155,6 @@ const Profile = () => {
             </Button>
           </div>
 
-          {/* Powered by Growth Tutorials */}
-          <div className="mt-8 text-center animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            <p className="text-xs text-gray-500">Powered by Growth Tutorials</p>
-          </div>
         </div>
       </div>
 
@@ -183,6 +179,11 @@ const Profile = () => {
             <User className="w-6 h-6 text-primary" />
             <span className="text-xs text-primary font-medium">Profile</span>
           </button>
+        </div>
+        
+        {/* Powered by Growth Tutorials */}
+        <div className="text-center pt-2 border-t border-gray-100 mt-3">
+          <p className="text-xs text-gray-500">Powered by Growth Tutorials</p>
         </div>
       </div>
     </div>
